@@ -11,7 +11,7 @@ for (int i = 0; i &lt;= end; i++) {
 printf(&quot;%d &quot;, arr[i]);
 }
 printf(&quot;\n&quot;);
-} else {
+} else }
 for (int i = start; i &lt;= end; i++) {
 swap(&amp;arr[start], &amp;arr[i]);
 generatePermutations(arr, start + 1, end);
