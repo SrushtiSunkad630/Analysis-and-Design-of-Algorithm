@@ -1,58 +1,62 @@
+#include <stdio.h>
 
-#include &lt;stdio.h&gt;
-int a[10][10],D[10][10],n;
-void floyd(int [][10],int);
-int min(int,int);
-int main()
-{
-printf(&quot;Enter the no. of vertices:&quot;);
-scanf(&quot;%d&quot;,&amp;n);
-printf(&quot;Enter the cost adjacency matrix:\n&quot;);
-int i,j;
-for(i=0;i&lt;n;i++){
-for(j=0;j&lt;n;j++){
-scanf(&quot;%d&quot;,&amp;a[i][j]);
-}
-}
-floyd(a,n);
-printf(&quot;Distance Matrix:\n&quot;);
-for(i=0;i&lt;n;i++){
-for(j=0;j&lt;n;j++){
-printf(&quot;%d &quot;,D[i][j]);
-}
-printf(&quot;\n&quot;);
-}
-return 0;
-}
+int a[10][10], D[10][10], n;
 
-void floyd(int a[][10],int n){
-int i,j,k;
-for(i=0;i&lt;n;i++){
-for(j=0;j&lt;n;j++){
-D[i][j]=a[i][j];
-}
+void floyd(int [][10], int);
+int min(int, int);
+
+int main() {
+    int i, j;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter the cost adjacency matrix:\n");
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            scanf("%d", &a[i][j]);
+        }
+    }
+
+    floyd(a, n);
+
+    printf("Distance Matrix:\n");
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            printf("%d ", D[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
 }
 
-for(k=0;k&lt;n;k++){
-for(i=0;i&lt;n;i++){
-for(j=0;j&lt;n;j++){
-D[i][j]=min(D[i][j],(D[i][k]+D[k][j]));
-}
-}
-}
+void floyd(int a[][10], int n) {
+    int i, j, k;
+
+    // Copy initial matrix
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            D[i][j] = a[i][j];
+        }
+    }
+
+    // Floyd-Warshall algorithm
+    for(k = 0; k < n; k++) {
+        for(i = 0; i < n; i++) {
+            for(j = 0; j < n; j++) {
+                D[i][j] = min(D[i][j], D[i][k] + D[k][j]);
+            }
+        }
+    }
 }
 
-int min(int a,int b){
-if(a&lt;b){
-return a;
-}else{
-return b;
-}
+int min(int a, int b) {
+    return (a < b) ? a : b;
 }
 
-OUTPUT:
-Enter the no. of vertices:4
-
+OUPUT
+Enter the number of vertices: 4
 Enter the cost adjacency matrix:
 0 99 3 99
 2 0 99 99
