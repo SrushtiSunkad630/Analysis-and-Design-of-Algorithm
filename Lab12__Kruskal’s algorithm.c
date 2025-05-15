@@ -1,80 +1,44 @@
-
 #include &lt;stdio.h&gt;
-int cost[10][10], n, t[10][2], sum;
-void kruskal(int cost[10][10], int n);
-int find(int parent[10], int i);
-int main() {
-int i, j;
-printf(&quot;Enter the number of vertices: &quot;);
-scanf(&quot;%d&quot;, &amp;n);
-printf(&quot;Enter the cost adjacency matrix:\n&quot;);
-for (i = 0; i &lt; n; i++) {
-for (j = 0; j &lt; n; j++) {
-scanf(&quot;%d&quot;, &amp;cost[i][j]);
-}
-}
-kruskal(cost, n);
-printf(&quot;Edges of the minimal spanning tree:\n&quot;);
+int n = 5;
+int p[10] = {3, 3, 2, 5, 1};
+int w[10] = {10, 15, 10, 12, 8};
+int W = 10;
+int main()
+{
+int cur_w;
+float tot_v;
+int i, maxi;
+int used[10];
+for (i = 0; i &lt; n; ++i)
+used[i] = 0;
+cur_w = W;
+while (cur_w &gt; 0) {
+maxi = -1;
+for (i = 0; i &lt; n; ++i)
+if ((used[i] == 0) &amp;&amp;
+((maxi == -1) || ((float)w[i]/p[i] &gt; (float)w[maxi]/p[maxi])))
+maxi = i;
+used[maxi] = 1;
+cur_w -= p[maxi];
+tot_v += w[maxi];
+if (cur_w &gt;= 0)
+printf(&quot;Added object %d (%d, %d) completely in the bag. Space left: %d.\n&quot;, maxi + 1,
+w[maxi], p[maxi], cur_w);
+else {
 
-for (i = 0; i &lt; n - 1; i++) {
-printf(&quot;(%d, %d) &quot;, t[i][0], t[i][1]);
+printf(&quot;Added %d%% (%d, %d) of object %d in the bag.\n&quot;, (int)((1 +
+(float)cur_w/p[maxi]) * 100), w[maxi], p[maxi], maxi + 1);
+tot_v -= w[maxi];
+tot_v += (1 + (float)cur_w/p[maxi]) * w[maxi];
 }
-printf(&quot;\nSum of minimal spanning tree: %d\n&quot;, sum);
+}
+printf(&quot;Filled the bag with objects worth %.2f.\n&quot;, tot_v);
 return 0;
 }
-void kruskal(int cost[10][10], int n) {
-int min, u, v, count, k;
-int parent[10];
-k = 0;
-sum = 0;
-// Initialize parent array for Union-Find
-for (int i = 0; i &lt; n; i++) {
-parent[i] = i;
-}
-count = 0;
-while (count &lt; n - 1) {
-min = 999;
-u = -1;
-v = -1;
-// Find the minimum edge
-for (int i = 0; i &lt; n; i++) {
-for (int j = 0; j &lt; n; j++) {
-if (find(parent, i) != find(parent, j) &amp;&amp; cost[i][j] &lt; min) {
-min = cost[i][j];
-u = i;
-v = j;
-}
-}
-}
-// Perform Union operation
-int root_u = find(parent, u);
-int root_v = find(parent, v);
 
-if (root_u != root_v) {
-parent[root_u] = root_v;
-t[k][0] = u;
-t[k][1] = v;
-sum += min;
-k++;
-count++;
-}
-}
-}
-int find(int parent[10], int i) {
-while (parent[i] != i) {
-i = parent[i];
-}
-return i;
-}
-
-
-OUTPUT:
-Enter the number of vertices: 4
-Enter the cost adjacency matrix:
-0 1 5 2
-1 0 99 99
-5 99 0 3
-2 99 3 0
-Edges of the minimal spanning tree:
-(1, 0) (3, 0) (2, 3)
-Sum of minimal spanning tree: 6
+OUTPUT
+Added object 5 (8, 1) completely in the bag. Space left: 9.
+Added object 3 (10, 2) completely in the bag. Space left: 7.
+Added object 1 (10, 3) completely in the bag. Space left: 4.
+Added 80% (15, 3) of object 2 in the bag.
+Filled the bag with objects worth 38.00.
