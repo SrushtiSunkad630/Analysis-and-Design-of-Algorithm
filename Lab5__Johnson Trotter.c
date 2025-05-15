@@ -1,39 +1,45 @@
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-void swap(int* a, int* b) {
-int temp = *a;
-*a = *b;
-*b = temp;
-}
-void generatePermutations(int arr[], int start, int end) {
-if (start == end) {
-for (int i = 0; i &lt;= end; i++) {
-printf(&quot;%d &quot;, arr[i]);
-}
-printf(&quot;\n&quot;);
-} else }
-for (int i = start; i &lt;= end; i++) {
-swap(&amp;arr[start], &amp;arr[i]);
-generatePermutations(arr, start + 1, end);
-swap(&amp;arr[start], &amp;arr[i]); // backtrack
-}
-}
-}
-int main() {
-int n;
-printf(&quot;Enter the number of elements: &quot;);
-scanf(&quot;%d&quot;, &amp;n);
+#include <stdio.h>
+#include <stdlib.h>
 
-int* arr = (int*)malloc(n * sizeof(int));
-printf(&quot;Enter the elements: &quot;);
-for (int i = 0; i &lt; n; i++) {
-scanf(&quot;%d&quot;, &amp;arr[i]);
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
-generatePermutations(arr, 0, n - 1);
-free(arr);
-return 0;
+
+void generatePermutations(int arr[], int start, int end) {
+    if (start == end) {
+        for (int i = 0; i <= end; i++) {
+            printf("%d ", arr[i]);
+        }
+        printf("\n");
+    } else {
+        for (int i = start; i <= end; i++) {
+            swap(&arr[start], &arr[i]);
+            generatePermutations(arr, start + 1, end);
+            swap(&arr[start], &arr[i]); // backtrack
+        }
+    }
 }
-OUTPUT:
+
+int main() {
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int* arr = (int*)malloc(n * sizeof(int));
+    printf("Enter the elements: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    generatePermutations(arr, 0, n - 1);
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT
 Enter the number of elements: 4
 Enter the elements: 1 2 3 4
 1 2 3 4
