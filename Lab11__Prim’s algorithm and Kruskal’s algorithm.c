@@ -1,4 +1,4 @@
-Prim’s Algorithm (Minimum Spanning Tree)
+//Prim’s Algorithm (Minimum Spanning Tree)
 #include <stdio.h>
 
 int cost[10][10], n, t[10][2], sum;
@@ -87,7 +87,8 @@ Sum of minimal spanning tree: 6
 
 
 
-Kruskal’s Algorithm (Minimum Spanning Tree)
+//Kruskal’s Algorithm (Minimum Spanning Tree)
+
 #include <stdio.h>
 
 int cost[10][10], n, t[10][2], sum;
