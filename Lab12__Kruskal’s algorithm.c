@@ -1,39 +1,42 @@
-#include &lt;stdio.h&gt;
-int n = 5;
-int p[10] = {3, 3, 2, 5, 1};
-int w[10] = {10, 15, 10, 12, 8};
-int W = 10;
-int main()
-{
-int cur_w;
-float tot_v;
-int i, maxi;
-int used[10];
-for (i = 0; i &lt; n; ++i)
-used[i] = 0;
-cur_w = W;
-while (cur_w &gt; 0) {
-maxi = -1;
-for (i = 0; i &lt; n; ++i)
-if ((used[i] == 0) &amp;&amp;
-((maxi == -1) || ((float)w[i]/p[i] &gt; (float)w[maxi]/p[maxi])))
-maxi = i;
-used[maxi] = 1;
-cur_w -= p[maxi];
-tot_v += w[maxi];
-if (cur_w &gt;= 0)
-printf(&quot;Added object %d (%d, %d) completely in the bag. Space left: %d.\n&quot;, maxi + 1,
-w[maxi], p[maxi], cur_w);
-else {
+#include <stdio.h>
 
-printf(&quot;Added %d%% (%d, %d) of object %d in the bag.\n&quot;, (int)((1 +
-(float)cur_w/p[maxi]) * 100), w[maxi], p[maxi], maxi + 1);
-tot_v -= w[maxi];
-tot_v += (1 + (float)cur_w/p[maxi]) * w[maxi];
-}
-}
-printf(&quot;Filled the bag with objects worth %.2f.\n&quot;, tot_v);
-return 0;
+int n = 5;
+int p[10] = {3, 3, 2, 5, 1};    // weights
+int w[10] = {10, 15, 10, 12, 8}; // values
+int W = 10; // Capacity of knapsack
+
+int main() {
+    int cur_w, i, maxi;
+    float tot_v = 0;
+    int used[10] = {0};
+
+    cur_w = W;
+
+    while (cur_w > 0) {
+        maxi = -1;
+        for (i = 0; i < n; ++i) {
+            if (used[i] == 0 &&
+                (maxi == -1 || (float)w[i]/p[i] > (float)w[maxi]/p[maxi])) {
+                maxi = i;
+            }
+        }
+
+        used[maxi] = 1;
+        cur_w -= p[maxi];
+        if (cur_w >= 0) {
+            tot_v += w[maxi];
+            printf("Added object %d (%d, %d) completely in the bag. Space left: %d.\n",
+                   maxi + 1, w[maxi], p[maxi], cur_w);
+        } else {
+            float fraction = 1 + (float)cur_w / p[maxi];
+            printf("Added %d%% (%d, %d) of object %d in the bag.\n",
+                   (int)(fraction * 100), w[maxi], p[maxi], maxi + 1);
+            tot_v += fraction * w[maxi];
+        }
+    }
+
+    printf("Filled the bag with objects worth %.2f.\n", tot_v);
+    return 0;
 }
 
 OUTPUT
